@@ -1,0 +1,31 @@
+services:
+  # Configuración de tu API Laravel
+  - type: web
+    name: carwash-api
+    env: php
+    rootDir: carwash_api  # IMPORTANTE: Aquí le decimos que el código está en esta subcarpeta
+    plan: free
+    buildCommand: composer install --no-dev --optimize-autoloader && php artisan migrate --force
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: PHP_VERSION
+        value: 8.2
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: true      # Cámbialo a 'false' cuando termines de probar que todo funciona
+      - key: APP_KEY
+        generateValue: true # Render generará una clave segura automáticamente
+      - key: DB_CONNECTION
+        value: pgsql     # Forzamos el uso de PostgreSQL
+      - key: DATABASE_URL
+        fromDatabase:
+          name: carwash-db
+          property: connectionString
+
+databases:
+  # Configuración de la Base de Datos (PostgreSQL)
+  - name: carwash-db
+    plan: free
+    databaseName: carwash
+    user: carwash_user
