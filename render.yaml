@@ -2,8 +2,6 @@ services:
   - type: web
     name: carwash-api
     env: php
-    # rootDir: carwash_api  <-- ¡BORRA ESTA LÍNEA! (Ya no hace falta)
-    plan: free
     buildCommand: composer install --no-dev --optimize-autoloader && php artisan migrate --force
     startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
     envVars:
